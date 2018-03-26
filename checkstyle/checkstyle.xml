@@ -93,7 +93,6 @@
         <module name="ParameterName"/>
         <module name="TypeName"/>
 
-
         <!-- Imports -->
         <module name="AvoidStarImport"/>
         <module name="IllegalImport"/>

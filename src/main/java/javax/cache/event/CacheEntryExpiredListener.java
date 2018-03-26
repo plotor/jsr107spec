@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package javax.cache.event;
 
+package javax.cache.event;
 
 /**
  * Invoked if a cache entry or entries are evicted due to expiration.
@@ -27,14 +27,14 @@ package javax.cache.event;
  */
 public interface CacheEntryExpiredListener<K, V> extends CacheEntryListener<K, V> {
 
-  /**
-   * Called after one or more entries have been expired by the cache. This is not
-   * necessarily when an entry is expired, but when the cache detects the expiry.
-   *
-   * @param events The entries just removed.
-   * @throws CacheEntryListenerException if there is problem executing the listener
-   */
-  void onExpired(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
-      throws CacheEntryListenerException;
+    /**
+     * Called after one or more entries have been expired by the cache. This is not
+     * necessarily when an entry is expired, but when the cache detects the expiry.
+     *
+     * @param events The entries just removed.
+     * @throws CacheEntryListenerException if there is problem executing the listener
+     */
+    void onExpired(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
+            throws CacheEntryListenerException;
 
 }

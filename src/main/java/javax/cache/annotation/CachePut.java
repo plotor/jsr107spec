@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.annotation;
 
-import javax.cache.Cache;
-import javax.cache.CacheManager;
-import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Arrays;
-
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.enterprise.util.Nonbinding;
 
 /**
  * When a method annotated with {@link CachePut} is invoked a {@link
@@ -43,7 +43,7 @@ import java.util.Arrays;
  * parameter should be stored in the "domainDao" cache.
  * <pre><code>
  * package my.app;
- * 
+ *
  * public class DomainDao {
  *   &#64;CachePut(cacheName="domainCache")
  *   public void updateDomain(String domainId, int index, &#64;CacheValue Domain
@@ -78,63 +78,63 @@ import java.util.Arrays;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CachePut {
 
-  /**
-   * The name of the cache.
-   * <p>
-   * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
-   * that is not set it defaults to:
-   * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
-   */
-  @Nonbinding String cacheName() default "";
+    /**
+     * The name of the cache.
+     * <p>
+     * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
+     * that is not set it defaults to:
+     * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
+     */
+    @Nonbinding String cacheName() default "";
 
-  /**
-   * When {@link Cache#put(Object, Object)} should be called. If true it is called
-   * after the annotated method invocation completes successfully. If false it is
-   * called before the annotated method is invoked.
-   * <p>
-   * Defaults to true.
-   * <p>
-   * If true and the annotated method throws an exception the rules governing
-   * {@link #cacheFor()} and {@link #noCacheFor()} will be followed.
-   */
-  @Nonbinding boolean afterInvocation() default true;
+    /**
+     * When {@link Cache#put(Object, Object)} should be called. If true it is called
+     * after the annotated method invocation completes successfully. If false it is
+     * called before the annotated method is invoked.
+     * <p>
+     * Defaults to true.
+     * <p>
+     * If true and the annotated method throws an exception the rules governing
+     * {@link #cacheFor()} and {@link #noCacheFor()} will be followed.
+     */
+    @Nonbinding boolean afterInvocation() default true;
 
-  /**
-   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
-   * use at runtime.
-   * <p>
-   * The default resolver pair will resolve the cache by name from the default
-   * {@link CacheManager}
-   */
-  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
-      default CacheResolverFactory.class;
+    /**
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
+     * use at runtime.
+     * <p>
+     * The default resolver pair will resolve the cache by name from the default
+     * {@link CacheManager}
+     */
+    @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
+            default CacheResolverFactory.class;
 
-  /**
-   * The {@link CacheKeyGenerator} to use to generate the {@link
-   * GeneratedCacheKey} for interacting with the specified Cache.
-   * <p>
-   * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])}
-   * and {@link Arrays#deepEquals(Object[], Object[])} with the array
-   * returned by {@link CacheKeyInvocationContext#getKeyParameters()}
-   *
-   * @see CacheKey
-   */
-  @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator()
-      default CacheKeyGenerator.class;
+    /**
+     * The {@link CacheKeyGenerator} to use to generate the {@link
+     * GeneratedCacheKey} for interacting with the specified Cache.
+     * <p>
+     * Defaults to a key generator that uses {@link Arrays#deepHashCode(Object[])}
+     * and {@link Arrays#deepEquals(Object[], Object[])} with the array
+     * returned by {@link CacheKeyInvocationContext#getKeyParameters()}
+     *
+     * @see CacheKey
+     */
+    @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator()
+            default CacheKeyGenerator.class;
 
-  /**
-   * Defines zero (0) or more exception {@link Class classes}, that must be a
-   * subclass of {@link Throwable}, indicating the exception types that <b>must</b>
-   * cause the parameter to be cached. Only used if {@link #afterInvocation()} is
-   * true.
-   */
-  @Nonbinding Class<? extends Throwable>[] cacheFor() default {};
+    /**
+     * Defines zero (0) or more exception {@link Class classes}, that must be a
+     * subclass of {@link Throwable}, indicating the exception types that <b>must</b>
+     * cause the parameter to be cached. Only used if {@link #afterInvocation()} is
+     * true.
+     */
+    @Nonbinding Class<? extends Throwable>[] cacheFor() default {};
 
-  /**
-   * Defines zero (0) or more exception {@link Class Classes}, which must be a
-   * subclass of {@link Throwable}, indicating which exception types <b>must
-   * not</b> cause the parameter to be cached. Only used if
-   * {@link #afterInvocation()} is true.
-   */
-  @Nonbinding Class<? extends Throwable>[] noCacheFor() default {};
+    /**
+     * Defines zero (0) or more exception {@link Class Classes}, which must be a
+     * subclass of {@link Throwable}, indicating which exception types <b>must
+     * not</b> cause the parameter to be cached. Only used if
+     * {@link #afterInvocation()} is true.
+     */
+    @Nonbinding Class<? extends Throwable>[] noCacheFor() default {};
 }

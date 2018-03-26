@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.processor;
 
 import javax.cache.CacheException;
@@ -28,21 +29,21 @@ import javax.cache.CacheException;
  * @since 1.0
  */
 public interface EntryProcessorResult<T> {
-  /**
-   * Obtain the result of processing an entry with an {@link EntryProcessor}.
-   * <p>
-   * If an exception was thrown during the processing of an entry, either by
-   * the {@link EntryProcessor} itself or by the Caching implementation,
-   * the exceptions will be wrapped and re-thrown as a
-   * {@link EntryProcessorException} when calling this method.
-   *
-   * @return  the result of processing
-   *
-   * @throws CacheException           if the implementation failed to execute
-   *                                  the {@link EntryProcessor}
-   * @throws EntryProcessorException  if the {@link EntryProcessor} raised
-   *                                  an exception, this exception will be
-   *                                  used to wrap the causing exception
-   */
-  T get() throws EntryProcessorException;
+    /**
+     * Obtain the result of processing an entry with an {@link EntryProcessor}.
+     * <p>
+     * If an exception was thrown during the processing of an entry, either by
+     * the {@link EntryProcessor} itself or by the Caching implementation,
+     * the exceptions will be wrapped and re-thrown as a
+     * {@link EntryProcessorException} when calling this method.
+     *
+     * @return the result of processing
+     *
+     * @throws CacheException           if the implementation failed to execute
+     *                                  the {@link EntryProcessor}
+     * @throws EntryProcessorException  if the {@link EntryProcessor} raised
+     *                                  an exception, this exception will be
+     *                                  used to wrap the causing exception
+     */
+    T get() throws EntryProcessorException;
 }

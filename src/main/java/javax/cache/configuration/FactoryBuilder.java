@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.configuration;
 
 import java.io.Serializable;
@@ -44,173 +45,172 @@ import java.io.Serializable;
  */
 public final class FactoryBuilder {
 
-  /**
-   * A private constructor to prevent instantiation.
-   */
-  private FactoryBuilder() {
-    //deliberately empty - no instances allowed!
-  }
-
-  /**
-   * Constructs a {@link Factory} that will produce factory instances of the
-   * specified class.
-   * <p>
-   * The specified class must have a no-args constructor.
-   *
-   * @param clazz the class of instances to be produced by the returned
-   *              {@link Factory}
-   * @param <T>   the type of the instances produced by the {@link Factory}
-   * @return a {@link Factory} for the specified clazz
-   */
-  public static <T> Factory<T> factoryOf(Class<T> clazz) {
-    return new ClassFactory<T>(clazz);
-  }
-
-  /**
-   * Constructs a {@link Factory} that will produce factory instances of the
-   * specified class.
-   * <p>
-   * The specified class must have a no-args constructor.
-   *
-   * @param className the class of instances to be produced by the returned
-   *                  {@link Factory}
-   * @param <T>       the type of the instances produced by the {@link Factory}
-   * @return          a {@link Factory} for the specified clazz
-   */
-  public static <T> Factory<T> factoryOf(String className) {
-    return new ClassFactory<T>(className);
-  }
-
-  /**
-   * Constructs a {@link Factory} that will return the specified factory
-   * Serializable instance.
-   * <p>
-   * If T is not Serializable use {@link #factoryOf(Class)} or
-   * {@link #factoryOf(String)}.
-   *
-   * @param instance the Serializable instance the {@link Factory} will return
-   * @param <T>      the type of the instances returned
-   * @return a {@link Factory} for the instance
-   */
-  public static <T extends Serializable> Factory<T> factoryOf(T instance) {
-    return new SingletonFactory<T>(instance);
-  }
-
-
-  /**
-   * A {@link Factory} that instantiates a specific Class.
-   *
-   * @param <T> the type of the instance produced by the {@link Factory}
-   */
-  public static class ClassFactory<T> implements Factory<T>, Serializable {
-
     /**
-     * The serialVersionUID required for {@link Serializable}.
+     * A private constructor to prevent instantiation.
      */
-    public static final long serialVersionUID = 201305101626L;
+    private FactoryBuilder() {
+        //deliberately empty - no instances allowed!
+    }
 
     /**
-     * The name of the Class.
-     */
-    private String className;
-
-    /**
-     * Constructor for the {@link ClassFactory}.
+     * Constructs a {@link Factory} that will produce factory instances of the
+     * specified class.
+     * <p>
+     * The specified class must have a no-args constructor.
      *
-     * @param clazz the Class to instantiate
+     * @param clazz the class of instances to be produced by the returned
+     *              {@link Factory}
+     * @param <T>   the type of the instances produced by the {@link Factory}
+     * @return a {@link Factory} for the specified clazz
      */
-    public ClassFactory(Class<T> clazz) {
-      this.className = clazz.getName();
+    public static <T> Factory<T> factoryOf(Class<T> clazz) {
+        return new ClassFactory<T>(clazz);
     }
 
     /**
-     * Constructor for the {@link ClassFactory}.
+     * Constructs a {@link Factory} that will produce factory instances of the
+     * specified class.
+     * <p>
+     * The specified class must have a no-args constructor.
      *
-     * @param className the name of the Class to instantiate
+     * @param className the class of instances to be produced by the returned
+     *                  {@link Factory}
+     * @param <T>       the type of the instances produced by the {@link Factory}
+     * @return a {@link Factory} for the specified clazz
      */
-    public ClassFactory(String className) {
-      this.className = className;
+    public static <T> Factory<T> factoryOf(String className) {
+        return new ClassFactory<T>(className);
     }
-
-    @Override
-    public T create() {
-      try {
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-
-        Class<?> clazz = loader.loadClass(className);
-
-        return (T) clazz.newInstance();
-      } catch (Exception e) {
-        throw new RuntimeException("Failed to create an instance of " + className, e);
-      }
-    }
-
-    @Override
-    public boolean equals(Object other) {
-      if (this == other) return true;
-      if (other == null || getClass() != other.getClass()) return false;
-
-      ClassFactory that = (ClassFactory) other;
-
-      if (!className.equals(that.className)) return false;
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return className.hashCode();
-    }
-  }
-
-  /**
-   * A {@link Factory} that always returns a specific instance. ie: the
-   * factory returns a singleton, regardless of the number of times
-   * {@link Factory#create()} is called.
-   *
-   * @param <T> the type of the instance produced by the {@link Factory}
-   */
-  public static class SingletonFactory<T> implements Factory<T>, Serializable {
 
     /**
-     * The serialVersionUID required for {@link java.io.Serializable}.
-     */
-    public static final long serialVersionUID = 201305101634L;
-
-    /**
-     * The singleton instance.
-     */
-    private T instance;
-
-    /**
-     * Constructor for the {@link SingletonFactory}.
+     * Constructs a {@link Factory} that will return the specified factory
+     * Serializable instance.
+     * <p>
+     * If T is not Serializable use {@link #factoryOf(Class)} or
+     * {@link #factoryOf(String)}.
      *
-     * @param instance the instance to return
+     * @param instance the Serializable instance the {@link Factory} will return
+     * @param <T>      the type of the instances returned
+     * @return a {@link Factory} for the instance
      */
-    public SingletonFactory(T instance) {
-      this.instance = instance;
+    public static <T extends Serializable> Factory<T> factoryOf(T instance) {
+        return new SingletonFactory<T>(instance);
     }
 
-    @Override
-    public T create() {
-      return instance;
+    /**
+     * A {@link Factory} that instantiates a specific Class.
+     *
+     * @param <T> the type of the instance produced by the {@link Factory}
+     */
+    public static class ClassFactory<T> implements Factory<T>, Serializable {
+
+        /**
+         * The serialVersionUID required for {@link Serializable}.
+         */
+        public static final long serialVersionUID = 201305101626L;
+
+        /**
+         * The name of the Class.
+         */
+        private String className;
+
+        /**
+         * Constructor for the {@link ClassFactory}.
+         *
+         * @param clazz the Class to instantiate
+         */
+        public ClassFactory(Class<T> clazz) {
+            this.className = clazz.getName();
+        }
+
+        /**
+         * Constructor for the {@link ClassFactory}.
+         *
+         * @param className the name of the Class to instantiate
+         */
+        public ClassFactory(String className) {
+            this.className = className;
+        }
+
+        @Override
+        public T create() {
+            try {
+                ClassLoader loader = Thread.currentThread().getContextClassLoader();
+
+                Class<?> clazz = loader.loadClass(className);
+
+                return (T) clazz.newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to create an instance of " + className, e);
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return className.hashCode();
+        }        @Override
+        public boolean equals(Object other) {
+            if (this == other) return true;
+            if (other == null || getClass() != other.getClass()) return false;
+
+            ClassFactory that = (ClassFactory) other;
+
+            if (!className.equals(that.className)) return false;
+
+            return true;
+        }
+
+
     }
 
-    @Override
-    public boolean equals(Object other) {
-      if (this == other) return true;
-      if (other == null || getClass() != other.getClass()) return false;
+    /**
+     * A {@link Factory} that always returns a specific instance. ie: the
+     * factory returns a singleton, regardless of the number of times
+     * {@link Factory#create()} is called.
+     *
+     * @param <T> the type of the instance produced by the {@link Factory}
+     */
+    public static class SingletonFactory<T> implements Factory<T>, Serializable {
 
-      SingletonFactory that = (SingletonFactory) other;
+        /**
+         * The serialVersionUID required for {@link java.io.Serializable}.
+         */
+        public static final long serialVersionUID = 201305101634L;
 
-      if (!instance.equals(that.instance)) return false;
+        /**
+         * The singleton instance.
+         */
+        private T instance;
 
-      return true;
+        /**
+         * Constructor for the {@link SingletonFactory}.
+         *
+         * @param instance the instance to return
+         */
+        public SingletonFactory(T instance) {
+            this.instance = instance;
+        }
+
+        @Override
+        public T create() {
+            return instance;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) return true;
+            if (other == null || getClass() != other.getClass()) return false;
+
+            SingletonFactory that = (SingletonFactory) other;
+
+            if (!instance.equals(that.instance)) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            return instance.hashCode();
+        }
     }
-
-    @Override
-    public int hashCode() {
-      return instance.hashCode();
-    }
-  }
 }

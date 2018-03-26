@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.annotation;
 
-import javax.cache.Cache;
-import javax.cache.CacheManager;
-import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.enterprise.util.Nonbinding;
 
 /**
  * When a method annotated with {@link CacheRemoveAll} is invoked all elements in
@@ -40,7 +40,7 @@ import java.lang.annotation.Target;
  * successfully.
  * <pre><code>
  * package my.app;
- * 
+ *
  * public class DomainDao {
  *   &#64;CacheRemoveAll(cacheName="domainCache")
  *   public void deleteAllDomains() {
@@ -72,50 +72,50 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheRemoveAll {
 
-  /**
-   * /**
-   * The name of the cache.
-   * <p>
-   * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
-   * that is not set it defaults to:
-   * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
-   */
-  @Nonbinding String cacheName() default "";
+    /**
+     * /**
+     * The name of the cache.
+     * <p>
+     * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
+     * that is not set it defaults to:
+     * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
+     */
+    @Nonbinding String cacheName() default "";
 
-  /**
-   * When {@link Cache#removeAll()} should be called. If true it is called after
-   * the annotated method invocation completes successfully. If false it is called
-   * before the annotated method is invoked.
-   * <p>
-   * Defaults to true.
-   * <p>
-   * If true and the annotated method throws an exception the removeAll will not be
-   * executed.
-   */
-  @Nonbinding boolean afterInvocation() default true;
+    /**
+     * When {@link Cache#removeAll()} should be called. If true it is called after
+     * the annotated method invocation completes successfully. If false it is called
+     * before the annotated method is invoked.
+     * <p>
+     * Defaults to true.
+     * <p>
+     * If true and the annotated method throws an exception the removeAll will not be
+     * executed.
+     */
+    @Nonbinding boolean afterInvocation() default true;
 
-  /**
-   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
-   * use at runtime.
-   * <p>
-   * The default resolver pair will resolve the cache by name from the default
-   * {@link CacheManager}
-   */
-  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
-      default CacheResolverFactory.class;
+    /**
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
+     * use at runtime.
+     * <p>
+     * The default resolver pair will resolve the cache by name from the default
+     * {@link CacheManager}
+     */
+    @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
+            default CacheResolverFactory.class;
 
-  /**
-   * Defines zero (0) or more exception {@link Class classes}, that must be a
-   * subclass of {@link Throwable}, indicating the exception types that must
-   * cause a cache eviction. Only used if {@link #afterInvocation()} is true.
-   */
-  @Nonbinding Class<? extends Throwable>[] evictFor() default {};
+    /**
+     * Defines zero (0) or more exception {@link Class classes}, that must be a
+     * subclass of {@link Throwable}, indicating the exception types that must
+     * cause a cache eviction. Only used if {@link #afterInvocation()} is true.
+     */
+    @Nonbinding Class<? extends Throwable>[] evictFor() default {};
 
-  /**
-   * Defines zero (0) or more exception {@link Class Classes}, that must be a
-   * subclass of {@link Throwable}, indicating the exception types that must
-   * <b>not</b> cause a cache eviction. Only used if {@link #afterInvocation()} is
-   * true.
-   */
-  @Nonbinding Class<? extends Throwable>[] noEvictFor() default {};
+    /**
+     * Defines zero (0) or more exception {@link Class Classes}, that must be a
+     * subclass of {@link Throwable}, indicating the exception types that must
+     * <b>not</b> cause a cache eviction. Only used if {@link #afterInvocation()} is
+     * true.
+     */
+    @Nonbinding Class<? extends Throwable>[] noEvictFor() default {};
 }

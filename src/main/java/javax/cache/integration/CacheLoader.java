@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.integration;
 
-import javax.cache.configuration.CompleteConfiguration;
 import java.util.Map;
+import javax.cache.configuration.CompleteConfiguration;
 
 /**
  * Used when a cache is read-through or when loading data into a cache via the
@@ -34,30 +35,28 @@ import java.util.Map;
  */
 public interface CacheLoader<K, V> {
 
-  /**
-   * Loads an object. Application developers should implement this
-   * method to customize the loading of a value for a cache entry. This method
-   * is called by a cache when a requested entry is not in the cache. If
-   * the object can't be loaded <code>null</code> should be returned.
-   *
-   * @param key the key identifying the object being loaded
-   * @return The value for the entry that is to be stored in the cache or
-   *         <code>null</code> if the object can't be loaded
-   * @throws CacheLoaderException if there is problem executing the loader.
-   */
-  V load(K key) throws CacheLoaderException;
+    /**
+     * Loads an object. Application developers should implement this
+     * method to customize the loading of a value for a cache entry. This method
+     * is called by a cache when a requested entry is not in the cache. If
+     * the object can't be loaded <code>null</code> should be returned.
+     *
+     * @param key the key identifying the object being loaded
+     * @return The value for the entry that is to be stored in the cache or
+     *         <code>null</code> if the object can't be loaded
+     * @throws CacheLoaderException if there is problem executing the loader.
+     */
+    V load(K key) throws CacheLoaderException;
 
-
-
-  /**
-   * Loads multiple objects. Application developers should implement this
-   * method to customize the loading of cache entries. This method is called
-   * when the requested object is not in the cache. If an object can't be loaded,
-   * it is not returned in the resulting map.
-   *
-   * @param keys keys identifying the values to be loaded
-   * @return A map of key, values to be stored in the cache.
-   * @throws CacheLoaderException if there is problem executing the loader.
-   */
-  Map<K, V> loadAll(Iterable<? extends K> keys) throws CacheLoaderException;
+    /**
+     * Loads multiple objects. Application developers should implement this
+     * method to customize the loading of cache entries. This method is called
+     * when the requested object is not in the cache. If an object can't be loaded,
+     * it is not returned in the resulting map.
+     *
+     * @param keys keys identifying the values to be loaded
+     * @return A map of key, values to be stored in the cache.
+     * @throws CacheLoaderException if there is problem executing the loader.
+     */
+    Map<K, V> loadAll(Iterable<? extends K> keys) throws CacheLoaderException;
 }

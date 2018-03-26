@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.annotation;
 
 import java.io.Serializable;
@@ -34,23 +35,23 @@ import java.io.Serializable;
  */
 public interface GeneratedCacheKey extends Serializable {
 
-  /**
-   * The immutable hash code of the cache key.
-   *
-   * @return The hash code of the object
-   * @see Object#hashCode()
-   */
-  @Override
-  int hashCode();
+    /**
+     * The immutable hash code of the cache key.
+     *
+     * @return The hash code of the object
+     * @see Object#hashCode()
+     */
+    @Override
+    int hashCode();
 
-  /**
-   * Compare this {@link GeneratedCacheKey} with another. If the two objects
-   * are equal their {@link #hashCode()} values MUST be equal as well.
-   *
-   * @param object The other object to compare to.
-   * @return true if the objects are equal
-   * @see Object#equals(Object)
-   */
-  @Override
-  boolean equals(Object object);
+    /**
+     * Compare this {@link GeneratedCacheKey} with another. If the two objects
+     * are equal their {@link #hashCode()} values MUST be equal as well.
+     *
+     * @param object The other object to compare to.
+     * @return true if the objects are equal
+     * @see Object#equals(Object)
+     */
+    @Override
+    boolean equals(Object object);
 }

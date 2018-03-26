@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.annotation;
 
-import javax.cache.Cache;
-import javax.cache.CacheManager;
-import javax.enterprise.util.Nonbinding;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.enterprise.util.Nonbinding;
 
 /**
  * When a method annotated with {@link CacheResult} is invoked a
@@ -55,7 +55,7 @@ import java.lang.annotation.Target;
  * </p>
  * <pre><code>
  * package my.app;
- * 
+ *
  * public class DomainDao {
  *   &#64;CacheResult
  *   public Domain getDomain(String domainId, int index) {
@@ -68,7 +68,7 @@ import java.lang.annotation.Target;
  * parameter is used in key generation:
  * <pre><code>
  * package my.app;
- * 
+ *
  * public class DomainDao {
  *   &#64;CacheResult
  *   public Domain getDomain(@CacheKey String domainId, Monitor mon) {
@@ -105,76 +105,76 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CacheResult {
 
-  /**
-   * <p>
-   * The name of the cache.
-   * </p>
-   * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
-   * that is not set it defaults to:
-   * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
-   */
-  @Nonbinding String cacheName() default "";
+    /**
+     * <p>
+     * The name of the cache.
+     * </p>
+     * If not specified defaults first to {@link CacheDefaults#cacheName()} and if
+     * that is not set it defaults to:
+     * package.name.ClassName.methodName(package.ParameterType,package.ParameterType)
+     */
+    @Nonbinding String cacheName() default "";
 
-  /**
-   * If set to true the pre-invocation {@link Cache#get(Object)} is
-   * skipped and the annotated method is always executed with the returned value
-   * being cached as normal. This is useful for create or update methods that
-   * should always be executed and have their returned value placed in the cache.
-   * <p>
-   * If true and an {@link #exceptionCacheName()} is specified the pre-invocation
-   * check for a thrown exception is also skipped. If an exception is thrown during
-   * invocation it will be cached following the standard exception caching rules.
-   * <p>
-   * Defaults to false.
-   *
-   * @see CachePut
-   */
-  @Nonbinding boolean skipGet() default false;
+    /**
+     * If set to true the pre-invocation {@link Cache#get(Object)} is
+     * skipped and the annotated method is always executed with the returned value
+     * being cached as normal. This is useful for create or update methods that
+     * should always be executed and have their returned value placed in the cache.
+     * <p>
+     * If true and an {@link #exceptionCacheName()} is specified the pre-invocation
+     * check for a thrown exception is also skipped. If an exception is thrown during
+     * invocation it will be cached following the standard exception caching rules.
+     * <p>
+     * Defaults to false.
+     *
+     * @see CachePut
+     */
+    @Nonbinding boolean skipGet() default false;
 
-  /**
-   * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
-   * use at runtime.
-   * <p>
-   * The default resolver pair will resolve the cache by name from the default
-   * {@link CacheManager}
-   */
-  @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
-      default CacheResolverFactory.class;
+    /**
+     * The {@link CacheResolverFactory} used to find the {@link CacheResolver} to
+     * use at runtime.
+     * <p>
+     * The default resolver pair will resolve the cache by name from the default
+     * {@link CacheManager}
+     */
+    @Nonbinding Class<? extends CacheResolverFactory> cacheResolverFactory()
+            default CacheResolverFactory.class;
 
-  /**
-   * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey}
-   * for interacting with the specified Cache.
-   * <p>
-   * Defaults to a key generator that uses
-   * {@link java.util.Arrays#deepHashCode(Object[])} and
-   * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array
-   * returned by {@link CacheKeyInvocationContext#getKeyParameters()}
-   *
-   * @see CacheKey
-   */
-  @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator()
-      default CacheKeyGenerator.class;
+    /**
+     * The {@link CacheKeyGenerator} to use to generate the {@link GeneratedCacheKey}
+     * for interacting with the specified Cache.
+     * <p>
+     * Defaults to a key generator that uses
+     * {@link java.util.Arrays#deepHashCode(Object[])} and
+     * {@link java.util.Arrays#deepEquals(Object[], Object[])} with the array
+     * returned by {@link CacheKeyInvocationContext#getKeyParameters()}
+     *
+     * @see CacheKey
+     */
+    @Nonbinding Class<? extends CacheKeyGenerator> cacheKeyGenerator()
+            default CacheKeyGenerator.class;
 
-  /**
-   * The name of the cache to cache exceptions.
-   * <p>
-   * If not specified no exception caching is done.
-   */
-  @Nonbinding String exceptionCacheName() default "";
+    /**
+     * The name of the cache to cache exceptions.
+     * <p>
+     * If not specified no exception caching is done.
+     */
+    @Nonbinding String exceptionCacheName() default "";
 
-  /**
-   * Defines zero (0) or more exception {@link Class classes}, that must be a
-   * subclass of {@link Throwable}, indicating the exception types that
-   * <b>must</b> be cached. Only consulted if {@link #exceptionCacheName()} is
-   * specified.
-   */
-  @Nonbinding Class<? extends Throwable>[] cachedExceptions() default {};
+    /**
+     * Defines zero (0) or more exception {@link Class classes}, that must be a
+     * subclass of {@link Throwable}, indicating the exception types that
+     * <b>must</b> be cached. Only consulted if {@link #exceptionCacheName()} is
+     * specified.
+     */
+    @Nonbinding Class<? extends Throwable>[] cachedExceptions() default {};
 
-  /**
-   * Defines zero (0) or more exception {@link Class Classes}, that must be a
-   * subclass of {@link Throwable}, indicating the exception types that
-   * <b>must not</b> be cached. Only consulted if {@link #exceptionCacheName()}
-   * is specified.
-   */
-  @Nonbinding Class<? extends Throwable>[] nonCachedExceptions() default {};
+    /**
+     * Defines zero (0) or more exception {@link Class Classes}, that must be a
+     * subclass of {@link Throwable}, indicating the exception types that
+     * <b>must not</b> be cached. Only consulted if {@link #exceptionCacheName()}
+     * is specified.
+     */
+    @Nonbinding Class<? extends Throwable>[] nonCachedExceptions() default {};
 }

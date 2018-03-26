@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.annotation;
 
 import java.lang.annotation.Annotation;
@@ -27,27 +28,27 @@ import java.util.Set;
  */
 public interface CacheInvocationParameter {
 
-  /**
-   * The parameter type as declared on the method.
-   */
-  Class<?> getRawType();
+    /**
+     * The parameter type as declared on the method.
+     */
+    Class<?> getRawType();
 
-  /**
-   * @return The parameter value
-   */
-  Object getValue();
+    /**
+     * @return The parameter value
+     */
+    Object getValue();
 
-  /**
-   * @return An immutable Set of all Annotations on this method parameter, never
-   * null.
-   */
-  Set<Annotation> getAnnotations();
+    /**
+     * @return An immutable Set of all Annotations on this method parameter, never
+     * null.
+     */
+    Set<Annotation> getAnnotations();
 
-  /**
-   * The index of the parameter in the original parameter array as returned by
-   * {@link CacheInvocationContext#getAllParameters()}
-   *
-   * @return The index of the parameter in the original parameter array.
-   */
-  int getParameterPosition();
+    /**
+     * The index of the parameter in the original parameter array as returned by
+     * {@link CacheInvocationContext#getAllParameters()}
+     *
+     * @return The index of the parameter in the original parameter array.
+     */
+    int getParameterPosition();
 }

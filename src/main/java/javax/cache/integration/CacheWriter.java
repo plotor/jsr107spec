@@ -6,18 +6,19 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */package javax.cache.integration;
+ */
 
+package javax.cache.integration;
 
-import javax.cache.Cache;
 import java.util.Collection;
+import javax.cache.Cache;
 
 /**
  * A CacheWriter is used for write-through to an external resource.
@@ -46,84 +47,81 @@ import java.util.Collection;
  */
 public interface CacheWriter<K, V> {
 
+    /**
+     * Write the specified value under the specified key to the external resource.
+     * <p>
+     * This method is intended to support both key/value creation and value update
+     * for a specific key.
+     *
+     * @param entry the entry to be written
+     * @throws CacheWriterException if the write fails. If thrown the
+     *                              cache mutation will not occur.
+     */
+    void write(Cache.Entry<? extends K, ? extends V> entry) throws CacheWriterException;
 
-  /**
-   * Write the specified value under the specified key to the external resource.
-   * <p>
-   * This method is intended to support both key/value creation and value update
-   * for a specific key.
-   *
-   * @param entry the entry to be written
-   * @throws CacheWriterException if the write fails. If thrown the
-   *                              cache mutation will not occur.
-   */
-  void write(Cache.Entry<? extends K, ? extends V> entry) throws CacheWriterException;
+    /**
+     * Write the specified entries to the external resource. This method is intended
+     * to support both insert and update.
+     * <p>
+     * The order that individual writes occur is undefined, as
+     * {@link Cache#putAll(java.util.Map)} also has undefined ordering.
+     * <p>
+     * If this operation fails (by throwing an exception) after a partial success,
+     * the writer must remove any successfully written entries from the entries
+     * collection so that the caching implementation knows what succeeded and can
+     * mutate the cache.
+     *
+     * @param entries a mutable collection to write. Upon invocation, it contains
+     *                the entries to write for write-through. Upon return the
+     *                collection must only contain entries that were not
+     *                successfully written. (see partial success above)
+     * @throws CacheWriterException if one or more of the writes fail. If
+     *                              thrown cache mutations will occur for
+     *                              entries that succeeded.
+     */
+    void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries) throws
+                                                                             CacheWriterException;
 
-  /**
-   * Write the specified entries to the external resource. This method is intended
-   * to support both insert and update.
-   * <p>
-   * The order that individual writes occur is undefined, as
-   * {@link Cache#putAll(java.util.Map)} also has undefined ordering.
-   * <p>
-   * If this operation fails (by throwing an exception) after a partial success,
-   * the writer must remove any successfully written entries from the entries
-   * collection so that the caching implementation knows what succeeded and can
-   * mutate the cache.
-   *
-   * @param entries a mutable collection to write. Upon invocation, it contains
-   *                the entries to write for write-through. Upon return the
-   *                collection must only contain entries that were not
-   *                successfully written. (see partial success above)
-   * @throws CacheWriterException if one or more of the writes fail. If
-   *                              thrown cache mutations will occur for
-   *                              entries that succeeded.
-   */
-  void writeAll(Collection<Cache.Entry<? extends K, ? extends V>> entries) throws
-      CacheWriterException;
+    /**
+     * Delete the cache entry from the external resource.
+     * <p>
+     * Expiry of a cache entry is not a delete hence will not cause this method to
+     * be invoked.
+     * <p>
+     * This method is invoked even if no mapping for the key exists.
+     *
+     * @param key the key that is used for the delete operation
+     * @throws CacheWriterException if delete fails. If thrown the cache delete will
+     *                              not occur.
+     */
+    void delete(Object key) throws CacheWriterException;
 
-
-  /**
-   * Delete the cache entry from the external resource.
-   * <p>
-   * Expiry of a cache entry is not a delete hence will not cause this method to
-   * be invoked.
-   * <p>
-   * This method is invoked even if no mapping for the key exists.
-   *
-   * @param key the key that is used for the delete operation
-   * @throws CacheWriterException if delete fails. If thrown the cache delete will
-   *                              not occur.
-   */
-  void delete(Object key) throws CacheWriterException;
-
-
-  /**
-   * Remove data and keys from the external resource for the given collection of
-   * keys, if present.
-   * <p>
-   * The order that individual deletes occur is undefined, as
-   * {@link Cache#removeAll(java.util.Set)} also has undefined ordering.
-   * <p>
-   * If this operation fails (by throwing an exception) after a partial success,
-   * the writer must remove any successfully written entries from the entries
-   * collection so that the caching implementation knows what succeeded and can
-   * mutate the cache.
-   * <p>
-   * Expiry of a cache entry is not a delete hence will not cause this method to
-   * be invoked.
-   * <p>
-   * This method may include keys even if there is no mapping for that key,
-   * in which case the data represented by that key should be removed from the
-   * underlying resource.
-   *
-   * @param keys a mutable collection of keys for entries to delete. Upon
-   *             invocation, it contains the keys to delete for write-through.
-   *             Upon return the collection must only contain the keys that were
-   *             not successfully deleted. (see partial success above)
-   * @throws CacheWriterException if one or more deletes fail. If thrown
-   *                              cache deletes will occur for entries that
-   *                              succeeded.
-   */
-  void deleteAll(Collection<?> keys) throws CacheWriterException;
+    /**
+     * Remove data and keys from the external resource for the given collection of
+     * keys, if present.
+     * <p>
+     * The order that individual deletes occur is undefined, as
+     * {@link Cache#removeAll(java.util.Set)} also has undefined ordering.
+     * <p>
+     * If this operation fails (by throwing an exception) after a partial success,
+     * the writer must remove any successfully written entries from the entries
+     * collection so that the caching implementation knows what succeeded and can
+     * mutate the cache.
+     * <p>
+     * Expiry of a cache entry is not a delete hence will not cause this method to
+     * be invoked.
+     * <p>
+     * This method may include keys even if there is no mapping for that key,
+     * in which case the data represented by that key should be removed from the
+     * underlying resource.
+     *
+     * @param keys a mutable collection of keys for entries to delete. Upon
+     *             invocation, it contains the keys to delete for write-through.
+     *             Upon return the collection must only contain the keys that were
+     *             not successfully deleted. (see partial success above)
+     * @throws CacheWriterException if one or more deletes fail. If thrown
+     *                              cache deletes will occur for entries that
+     *                              succeeded.
+     */
+    void deleteAll(Collection<?> keys) throws CacheWriterException;
 }
