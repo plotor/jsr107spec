@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,8 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache;
 
+import java.io.Closeable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import javax.cache.configuration.CacheEntryListenerConfiguration;
 import javax.cache.configuration.Configuration;
 import javax.cache.event.CacheEntryListener;
@@ -27,12 +32,10 @@ import javax.cache.integration.CompletionListener;
 import javax.cache.processor.EntryProcessor;
 import javax.cache.processor.EntryProcessorException;
 import javax.cache.processor.EntryProcessorResult;
-import java.io.Closeable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 /**
+ * 类似 {@link Map} 的数据结构，并临时存储以 Key 为索引的值，一个 Cache 仅被一个 {@link CacheManager} 所拥有
+ *
  * A {@link Cache} is a Map-like data structure that provides temporary storage
  * of application data.
  * <p>
@@ -109,7 +112,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *
      * @param keys The keys whose associated values are to be returned.
      * @return A map of entries that were found for the given keys. Keys not found
-     *         in the cache are not in the returned map.
+     * in the cache are not in the returned map.
      * @throws NullPointerException  if keys is null or if keys contains a null
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws CacheException        if there is a problem fetching the values
@@ -130,6 +133,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the cache is configured read-through the associated {@link CacheLoader}
      * is not called. Only the cache is checked.
      * </p>
+     *
      * @param key key whose presence in this cache is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified key
      * @throws NullPointerException  if key is null
@@ -163,10 +167,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * different CompletionListeners rather than use a thread per
      * CompletionListener.
      *
-     * @param keys                  the keys to load
+     * @param keys the keys to load
      * @param replaceExistingValues when true existing values in the Cache will
-     *                              be replaced by those loaded from a CacheLoader
-     * @param completionListener    the CompletionListener (may be null)
+     * be replaced by those loaded from a CacheLoader
+     * @param completionListener the CompletionListener (may be null)
      * @throws NullPointerException  if keys is null or if keys contains a null.
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws CacheException        thrown if there is a problem performing the
@@ -193,7 +197,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      *
-     * @param key   key with which the specified value is to be associated
+     * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @throws NullPointerException  if key is null or if value is null
      * @throws IllegalStateException if the cache is {@link #isClosed()}
@@ -226,10 +230,10 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
      *
-     * @param key   key with which the specified value is to be associated
+     * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @return the value associated with the key at the start of the operation or
-     *         null if none was associated
+     * null if none was associated
      * @throws NullPointerException  if key is null or if value is null
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws CacheException        if there is a problem doing the put
@@ -295,7 +299,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the cache is configured write-through, and this method returns true,
      * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
-     * @param key   key with which the specified value is to be associated
+     *
+     * @param key key with which the specified value is to be associated
      * @param value value to be associated with the specified key
      * @return true if a value was set.
      * @throws NullPointerException  if key is null or value is null
@@ -326,6 +331,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the cache is configured write-through the associated
      * {@link CacheWriter#delete(Object)} method will be called.
      * </p>
+     *
      * @param key key whose mapping is to be removed from the cache
      * @return returns false if there was no matching key
      * @throws NullPointerException  if key is null
@@ -357,7 +363,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the cache is configured write-through, and this method returns true,
      * the associated {@link CacheWriter#delete(Object)} method will be called.
      * </p>
-     * @param key      key whose mapping is to be removed from the cache
+     *
+     * @param key key whose mapping is to be removed from the cache
      * @param oldValue value expected to be associated with the specified key
      * @return returns false if there was no matching key
      * @throws NullPointerException  if key is null
@@ -422,7 +429,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the cache is configured write-through, and this method returns true,
      * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
-     * @param key      key with which the specified value is associated
+     *
+     * @param key key with which the specified value is associated
      * @param oldValue value expected to be associated with the specified key
      * @param newValue value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
@@ -454,7 +462,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the cache is configured write-through, and this method returns true,
      * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
-     * @param key  the key with which the specified value is associated
+     *
+     * @param key the key with which the specified value is associated
      * @param value the value to be associated with the specified key
      * @return <tt>true</tt> if the value was replaced
      * @throws NullPointerException  if key is null or if value is null
@@ -488,10 +497,11 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * If the cache is configured write-through, and this method returns true,
      * the associated {@link CacheWriter#write(Cache.Entry)} method will be called.
      * </p>
-     * @param key   key with which the specified value is associated
+     *
+     * @param key key with which the specified value is associated
      * @param value value to be associated with the specified key
      * @return the previous value associated with the specified key, or
-     *         <tt>null</tt> if there was no mapping for the key.
+     * <tt>null</tt> if there was no mapping for the key.
      * @throws NullPointerException  if key is null or if value is null
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws CacheException        if there is a problem during the replace
@@ -511,8 +521,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * For every entry in the key set, the following are called:
      * <ul>
-     *   <li>any registered {@link CacheEntryRemovedListener}s</li>
-     *   <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
+     * <li>any registered {@link CacheEntryRemovedListener}s</li>
+     * <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
      * </ul>
      *
      * @param keys the keys to remove
@@ -534,8 +544,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * <p>
      * For every mapping that exists the following are called:
      * <ul>
-     *   <li>any registered {@link CacheEntryRemovedListener}s</li>
-     *   <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
+     * <li>any registered {@link CacheEntryRemovedListener}s</li>
+     * <li>if the cache is a write-through cache, the {@link CacheWriter}</li>
      * </ul>
      * If the cache is empty, the {@link CacheWriter} is not called.
      * <p>
@@ -569,8 +579,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *
      * @param <C> the type of the Configuration
      * @param clazz the configuration interface or class to return. This includes
-     *              {@link Configuration}.class and
-     *              {@link javax.cache.configuration.CompleteConfiguration}s.
+     * {@link Configuration}.class and
+     * {@link javax.cache.configuration.CompleteConfiguration}s.
      * @return the requested implementation of {@link Configuration}
      * @throws IllegalArgumentException if the caching provider doesn't support
      *                                  the specified class.
@@ -579,21 +589,21 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
 
     /**
      * Invokes an {@link EntryProcessor} against the {@link Entry} specified by
-     * the provided key. 
+     * the provided key.
      *
-     * @param <T>            the type of the return value
-     * @param key            the key to the entry
+     * @param <T> the type of the return value
+     * @param key the key to the entry
      * @param entryProcessor the {@link EntryProcessor} to invoke
-     * @param arguments      additional arguments to pass to the
-     *                       {@link EntryProcessor}
+     * @param arguments additional arguments to pass to the
+     * {@link EntryProcessor}
      * @return the result of the processing, if any, defined by the
-     *         {@link EntryProcessor} implementation
+     * {@link EntryProcessor} implementation
      * @throws NullPointerException    if key or {@link EntryProcessor} is null
      * @throws IllegalStateException   if the cache is {@link #isClosed()}
-     * @throws ClassCastException    if the implementation is configured to perform
-     *                               runtime-type-checking, and the key or value
-     *                               types are incompatible with those that have been
-     *                               configured for the {@link Cache}
+     * @throws ClassCastException      if the implementation is configured to perform
+     *                                 runtime-type-checking, and the key or value
+     *                                 types are incompatible with those that have been
+     *                                 configured for the {@link Cache}
      * @throws EntryProcessorException if an exception is thrown by the {@link
      *                                 EntryProcessor}, a Caching Implementation
      *                                 must wrap any {@link Exception} thrown
@@ -620,17 +630,17 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * exception is wrapped and re-thrown when a call to
      * {@link javax.cache.processor.EntryProcessorResult#get()} is made.
      *
-     * @param <T>            the type of the return value
-     * @param keys           the set of keys for entries to process
+     * @param <T> the type of the return value
+     * @param keys the set of keys for entries to process
      * @param entryProcessor the {@link EntryProcessor} to invoke
-     * @param arguments      additional arguments to pass to the
-     *                       {@link EntryProcessor}
+     * @param arguments additional arguments to pass to the
+     * {@link EntryProcessor}
      * @return the map of {@link EntryProcessorResult}s of the processing per key,
      * if any, defined by the {@link EntryProcessor} implementation.  No mappings
      * will be returned for {@link EntryProcessor}s that return a
      * <code>null</code> value for a key.
-     * @throws NullPointerException    if keys or {@link EntryProcessor} are null
-     * @throws IllegalStateException   if the cache is {@link #isClosed()}
+     * @throws NullPointerException  if keys or {@link EntryProcessor} are null
+     * @throws IllegalStateException if the cache is {@link #isClosed()}
      * @throws ClassCastException    if the implementation is configured to perform
      *                               runtime-type-checking, and the key or value
      *                               types are incompatible with those that have been
@@ -653,7 +663,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * Gets the {@link CacheManager} that owns and manages the {@link Cache}.
      *
      * @return the manager or <code>null</code> if the {@link Cache} is not
-     *         managed
+     * managed
      */
     CacheManager getCacheManager();
 
@@ -721,7 +731,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *
      * @param <T> the type of the underlying {@link Cache} implementation
      * @param clazz the proprietary class or interface of the underlying concrete
-     *              cache. It is this type that is returned.
+     * cache. It is this type that is returned.
      * @return an instance of the underlying concrete cache
      * @throws IllegalArgumentException if the caching provider doesn't support
      *                                  the specified class.
@@ -735,9 +745,8 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * {@link CacheEntryListenerConfiguration} is used to instantiate a listener
      * and apply it to those events specified in the configuration.
      *
-     * @param cacheEntryListenerConfiguration
-     *         a factory and related configuration
-     *         for creating the listener
+     * @param cacheEntryListenerConfiguration a factory and related configuration
+     * for creating the listener
      * @throws IllegalArgumentException is the same CacheEntryListenerConfiguration
      *                                  is used more than once
      * @throws IllegalStateException    if the cache is {@link #isClosed()}
@@ -754,10 +763,9 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      * and those created at runtime with {@link #registerCacheEntryListener} can
      * be deregistered.
      *
-     * @param cacheEntryListenerConfiguration
-     *         the factory and related configuration
-     *         that was used to create the
-     *         listener
+     * @param cacheEntryListenerConfiguration the factory and related configuration
+     * that was used to create the
+     * listener
      * @throws IllegalStateException if the cache is {@link #isClosed()}
      */
     void deregisterCacheEntryListener(CacheEntryListenerConfiguration<K, V>
@@ -781,6 +789,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
     Iterator<Cache.Entry<K, V>> iterator();
 
     /**
+     * 储存 Cache 的 key-value 对
      * A cache entry (key-value pair).
      */
     interface Entry<K, V> {
@@ -808,7 +817,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
          *
          * @param <T> the type of the underlying {@link Entry} implementation
          * @param clazz the proprietary class or interface of the underlying
-         *              concrete cache. It is this type that is returned.
+         * concrete cache. It is this type that is returned.
          * @return an instance of the underlying concrete cache
          * @throws IllegalArgumentException if the caching provider doesn't support
          *                                  the specified class.
