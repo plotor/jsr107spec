@@ -156,9 +156,7 @@ public interface CacheManager extends Closeable {
      * @throws SecurityException             when the operation could not be performed
      *                                       due to the current security settings
      */
-    <K, V, C extends Configuration<K, V>> Cache<K, V> createCache(String cacheName,
-                                                                  C configuration)
-            throws IllegalArgumentException;
+    <K, V, C extends Configuration<K, V>> Cache<K, V> createCache(String cacheName, C configuration) throws IllegalArgumentException;
 
     /**
      * Looks up a managed {@link Cache} given its name.
@@ -191,8 +189,7 @@ public interface CacheManager extends Closeable {
      * @throws SecurityException     when the operation could not be performed
      *                               due to the current security settings
      */
-    <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType,
-                                Class<V> valueType);
+    <K, V> Cache<K, V> getCache(String cacheName, Class<K> keyType, Class<V> valueType);
 
     /**
      * Looks up a managed {@link Cache} given its name.

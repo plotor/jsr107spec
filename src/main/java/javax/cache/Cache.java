@@ -182,8 +182,7 @@ public interface Cache<K, V> extends Iterable<Cache.Entry<K, V>>, Closeable {
      *                               types are incompatible with those that have been
      *                               configured for the {@link Cache}
      */
-    void loadAll(Set<? extends K> keys, boolean replaceExistingValues,
-                 CompletionListener completionListener);
+    void loadAll(Set<? extends K> keys, boolean replaceExistingValues, CompletionListener completionListener);
 
     /**
      * Associates the specified value with the specified key in the cache.

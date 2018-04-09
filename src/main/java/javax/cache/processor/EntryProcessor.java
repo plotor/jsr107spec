@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package javax.cache.processor;
 
 import javax.cache.Cache;
 import javax.cache.event.CacheEntryListener;
 import javax.cache.expiry.ExpiryPolicy;
 import javax.cache.integration.CacheWriter;
-
 
 /**
  * An invocable function that allows applications to perform compound operations
@@ -38,7 +38,7 @@ import javax.cache.integration.CacheWriter;
  * <p>
  * Implementations may execute {@link EntryProcessor}s in situ, thus avoiding
  * locking, round-trips and expensive network transfers.
- * 
+ *
  * <h3>Effect of {@link MutableEntry} operations</h3>
  * {@link javax.cache.Cache.Entry} access, via a call to
  * {@link javax.cache.Cache.Entry#getValue()}, will behave as if
@@ -62,7 +62,7 @@ import javax.cache.integration.CacheWriter;
  * As implementations may choose to execute {@link EntryProcessor}s remotely,
  * {@link EntryProcessor}s, together with specified parameters and return
  * values, may be required to implement {@link java.io.Serializable}.
- * 
+ *
  * <h3>Effect of multiple {@link MutableEntry} operations performed by one {@link
  * EntryProcessor}</h3>
  * Only the net effect of multiple operations has visibility outside of the Entry
@@ -89,7 +89,7 @@ import javax.cache.integration.CacheWriter;
  * the Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
- * 
+ *
  * <h4>Example 2</h4>
  * In this example, an {@link EntryProcessor} calls:
  * <ol>
@@ -111,7 +111,7 @@ import javax.cache.integration.CacheWriter;
  * the Entry Processor.<br>
  * ExpiryPolicy: The first get and the second put only are visible to the
  * ExpiryPolicy.<br>
- * 
+ *
  * <h4>Example 3</h4>
  * In this example, an {@link EntryProcessor} calls:
  * <ol>
@@ -143,14 +143,13 @@ import javax.cache.integration.CacheWriter;
  */
 public interface EntryProcessor<K, V, T> {
 
-  /**
-   * Process an entry.
-   *
-   * @param entry     the entry
-   * @param arguments a number of arguments to the process.
-   * @return the user-defined result of the processing, if any.
-   * @throws EntryProcessorException if there is a failure in entry processing.
-   */
-  T process(MutableEntry<K, V> entry, Object... arguments)
-      throws EntryProcessorException;
+    /**
+     * Process an entry.
+     *
+     * @param entry the entry
+     * @param arguments a number of arguments to the process.
+     * @return the user-defined result of the processing, if any.
+     * @throws EntryProcessorException if there is a failure in entry processing.
+     */
+    T process(MutableEntry<K, V> entry, Object... arguments) throws EntryProcessorException;
 }

@@ -89,23 +89,21 @@ import javax.cache.spi.CachingProvider;
  * @author Brian Oliver
  * @author Greg Luck
  * @author Yannis Cosmadopoulos
- * @since 1.0
  * @see ServiceLoader
  * @see CachingProvider
+ * @since 1.0
  */
 public final class Caching {
 
     /**
      * The <code>javax.cache.spi.cachingprovider</code> constant.
      */
-    public static final String JAVAX_CACHE_CACHING_PROVIDER = "javax.cache" +
-            ".spi.CachingProvider";
+    public static final String JAVAX_CACHE_CACHING_PROVIDER = "javax.cache.spi.CachingProvider";
 
     /**
      * The {@link CachingProviderRegistry} that tracks the {@link CachingProvider}s.
      */
-    private static final CachingProviderRegistry CACHING_PROVIDERS =
-            new CachingProviderRegistry();
+    private static final CachingProviderRegistry CACHING_PROVIDERS = new CachingProviderRegistry();
 
     /**
      * No public constructor as all methods are static.
@@ -130,8 +128,8 @@ public final class Caching {
      * require a {@link ClassLoader}, but internally use one.
      *
      * @param classLoader the {@link ClassLoader} or <code>null</code> if the
-     *                    calling {@link Thread#getContextClassLoader()} should
-     *                    be used
+     * calling {@link Thread#getContextClassLoader()} should
+     * be used
      */
     public static void setDefaultClassLoader(ClassLoader classLoader) {
         CACHING_PROVIDERS.setDefaultClassLoader(classLoader);
@@ -157,7 +155,7 @@ public final class Caching {
      * {@link ClassLoader}.
      *
      * @param classLoader the {@link ClassLoader} to use for loading the
-     *                    {@link CachingProvider}
+     * {@link CachingProvider}
      * @return the {@link CachingProvider}
      * @throws CacheException    should zero, or more than one
      *                           {@link CachingProvider} be available on the
@@ -182,7 +180,7 @@ public final class Caching {
      * {@link #getCachingProvider(String)}) are returned.
      *
      * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
-     *         specified {@link ClassLoader}
+     * specified {@link ClassLoader}
      */
     public static Iterable<CachingProvider> getCachingProviders() {
         return CACHING_PROVIDERS.getCachingProviders();
@@ -200,9 +198,9 @@ public final class Caching {
      * {@link #getCachingProvider(String, ClassLoader)}) are returned.
      *
      * @param classLoader the {@link ClassLoader} of the returned
-     *                    {@link CachingProvider}s
+     * {@link CachingProvider}s
      * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
-     *         specified {@link ClassLoader}
+     * specified {@link ClassLoader}
      */
     public static Iterable<CachingProvider> getCachingProviders(
             ClassLoader classLoader) {
@@ -217,7 +215,7 @@ public final class Caching {
      * class (using a no-args constructor).
      *
      * @param fullyQualifiedClassName the fully qualified class name of the
-     *                                {@link CachingProvider}
+     * {@link CachingProvider}
      * @return the {@link CachingProvider}
      * @throws CacheException    if the {@link CachingProvider} cannot be created
      * @throws SecurityException when the operation could not be performed
@@ -235,18 +233,16 @@ public final class Caching {
      * class (using a no-args constructor).
      *
      * @param fullyQualifiedClassName the fully qualified class name of the
-     *                                {@link CachingProvider}
-     * @param classLoader             the {@link ClassLoader} to load the
-     *                                {@link CachingProvider}
+     * {@link CachingProvider}
+     * @param classLoader the {@link ClassLoader} to load the
+     * {@link CachingProvider}
      * @return the {@link CachingProvider}
      * @throws CacheException    if the {@link CachingProvider} cannot be created
      * @throws SecurityException when the operation could not be performed
      *                           due to the current security settings
      */
-    public static CachingProvider getCachingProvider(String fullyQualifiedClassName,
-                                                     ClassLoader classLoader) {
-        return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName,
-                classLoader);
+    public static CachingProvider getCachingProvider(String fullyQualifiedClassName, ClassLoader classLoader) {
+        return CACHING_PROVIDERS.getCachingProvider(fullyQualifiedClassName, classLoader);
     }
 
     /**
@@ -268,10 +264,11 @@ public final class Caching {
      * Implementations that support declarative mechanisms for pre-configuring
      * {@link Cache}s may return a pre-configured {@link Cache} instead of
      * <code>null</code>.
+     *
      * @param <K> the type of key
      * @param <V> the type of value
      * @param cacheName the name of the managed {@link Cache} to acquire
-     * @param keyType   the expected {@link Class} of the key
+     * @param keyType the expected {@link Class} of the key
      * @param valueType the expected {@link Class} of the value
      * @return the Cache or null if it does exist or can't be pre-configured
      * @throws IllegalStateException    if the CacheManager is
@@ -300,8 +297,7 @@ public final class Caching {
          * The {@link CachingProvider}s by Class Name organized by the
          * {@link ClassLoader} was used to load them.
          */
-        private WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>>
-                cachingProviders;
+        private WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>> cachingProviders;
 
         /**
          * The default {@link ClassLoader}.  When <code>null</code> the
@@ -313,8 +309,7 @@ public final class Caching {
          * Constructs a CachingProviderManager.
          */
         public CachingProviderRegistry() {
-            this.cachingProviders = new WeakHashMap<ClassLoader, LinkedHashMap<String,
-                    CachingProvider>>();
+            this.cachingProviders = new WeakHashMap<ClassLoader, LinkedHashMap<String, CachingProvider>>();
             this.classLoader = null;
         }
 
@@ -324,6 +319,7 @@ public final class Caching {
          * <p>
          * By default this is the {@link Thread#getContextClassLoader()}.
          * </p>
+         *
          * @return the default {@link ClassLoader}
          */
         public ClassLoader getDefaultClassLoader() {
@@ -336,8 +332,8 @@ public final class Caching {
          * require a {@link ClassLoader}, but internally use one.
          *
          * @param classLoader the {@link ClassLoader} or <code>null</code> if the
-         *                    calling {@link Thread#getContextClassLoader()} should
-         *                    be used
+         * calling {@link Thread#getContextClassLoader()} should
+         * be used
          */
         public void setDefaultClassLoader(ClassLoader classLoader) {
             this.classLoader = classLoader;
@@ -350,6 +346,7 @@ public final class Caching {
          * Should zero or more than one {@link CachingProvider}s be available, a
          * CacheException is thrown.
          * </p>
+         *
          * @return the {@link CachingProvider}
          * @throws CacheException should zero or more than one
          *                        {@link CachingProvider} be available
@@ -368,8 +365,9 @@ public final class Caching {
          * Should zero or more than one {@link CachingProvider}s be available, a
          * CacheException is thrown.
          * </p>
+         *
          * @param classLoader the {@link ClassLoader} to use for loading the
-         *                    {@link CachingProvider}
+         * {@link CachingProvider}
          * @return the {@link CachingProvider}
          * @throws CacheException should zero or more than one
          *                        {@link CachingProvider} be available
@@ -403,8 +401,9 @@ public final class Caching {
          * {@link ClassLoader} (and those explicitly requested via
          * {@link #getCachingProvider(String)}) are returned.
          * </p>
+         *
          * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
-         *         default {@link ClassLoader}
+         * default {@link ClassLoader}
          */
         public Iterable<CachingProvider> getCachingProviders() {
             return getCachingProviders(getDefaultClassLoader());
@@ -421,10 +420,11 @@ public final class Caching {
          * {@link ClassLoader} (and those explicitly requested via
          * {@link #getCachingProvider(String, ClassLoader)}) are returned.
          * </p>
+         *
          * @param classLoader the {@link ClassLoader} of the returned
-         *                    {@link CachingProvider}s
+         * {@link CachingProvider}s
          * @return an {@link Iterable} of {@link CachingProvider}s loaded by the
-         *         specified {@link ClassLoader}
+         * specified {@link ClassLoader}
          */
         public synchronized Iterable<CachingProvider> getCachingProviders(ClassLoader classLoader) {
 
@@ -468,7 +468,7 @@ public final class Caching {
          * specified class name (using a no-args constructor).
          *
          * @param fullyQualifiedClassName the fully qualified class name of the
-         *                                {@link CachingProvider}
+         * {@link CachingProvider}
          * @return the {@link CachingProvider}
          * @throws CacheException when the {@link CachingProvider} can't be created
          */
@@ -481,8 +481,8 @@ public final class Caching {
          * fully qualified class name using the provided {@link ClassLoader}
          *
          * @param fullyQualifiedClassName the name of the {@link CachingProvider}
-         *                                class
-         * @param classLoader             the {@link ClassLoader} to use
+         * class
+         * @param classLoader the {@link ClassLoader} to use
          * @return a new {@link CachingProvider} instance
          * @throws CacheException if the specified {@link CachingProvider} could not be
          *                        loaded
@@ -512,9 +512,9 @@ public final class Caching {
          * class (using a no-args constructor).
          *
          * @param fullyQualifiedClassName the fully qualified class name of the
-         *                                {@link CachingProvider}
-         * @param classLoader             the {@link ClassLoader} to load the
-         *                                {@link CachingProvider}
+         * {@link CachingProvider}
+         * @param classLoader the {@link ClassLoader} to load the
+         * {@link CachingProvider}
          * @return the {@link CachingProvider}
          * @throws CacheException when the {@link CachingProvider} can't be created
          */
